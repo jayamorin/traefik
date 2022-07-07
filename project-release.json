@@ -1,0 +1,19 @@
+{
+  "project_code": "traefik",
+  "rancher-desktop": [
+    {
+      "service": "traefik",
+      "image_name": "traefik",
+      "image_version": "v2.7",
+      "deployment_type": "kubernetes"
+    }
+  ],
+  "docker-desktop": [
+    {
+      "service": "traefik",
+      "image_name": "traefik",
+      "image_version": "v2.7",
+      "deployment_type": "kubernetes"
+    }
+  ]
+}
