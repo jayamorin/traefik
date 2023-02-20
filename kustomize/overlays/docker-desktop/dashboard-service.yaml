@@ -8,6 +8,7 @@ spec:
     - protocol: TCP
       name: dashboard
       port: 8080
+      targetPort: dashboard
   selector:
     app.kubernetes.io/name: traefik-ingress-controller
     app.kubernetes.io/component: load-balancer
