@@ -56,3 +56,18 @@ jobs:
         with:
           github_token: ${{ secrets.JAYAMORIN_TOKEN }}
           release_branches: main
+
+  pre-release-develop:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    needs: tests
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          prerelease: true
+          tag: ${{ tag-develop.tag_version.outputs.new_tag }}
+          name: Release ${{ tag-develop.tag_version.outputs.new_tag }}
+          body: ${{ tag-develop.tag_version.outputs.changelog }}
