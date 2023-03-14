@@ -60,7 +60,7 @@ jobs:
   pre-release-develop:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/develop' }}
-    needs: tests
+    needs: tag-develop
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
@@ -68,6 +68,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           prerelease: true
-          tag: ${{ tag-develop.tag_version.outputs.new_tag }}
-          name: Release ${{ tag-develop.tag_version.outputs.new_tag }}
-          body: ${{ tag-develop.tag_version.outputs.changelog }}
+          tag: ${{ needs.tag-develop.tag_version.outputs.new_tag }}
+          name: Release ${{ needs.tag-develop.tag_version.outputs.new_tag }}
+          body: ${{ needs.tag-develop.tag_version.outputs.changelog }}
