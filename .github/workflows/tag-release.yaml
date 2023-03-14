@@ -68,6 +68,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           prerelease: true
-          tag: ${{ tag-develop.tag_version.outputs.new_tag }}
-          name: Release ${{ tag-develop.tag_version.outputs.new_tag }}
-          body: ${{ tag-develop.tag_version.outputs.changelog }}
+          tag: ${{ jobs.tag-develop.tag_version.outputs.new_tag }}
+          name: Release ${{ jobs.tag-develop.tag_version.outputs.new_tag }}
+          body: ${{ jobs.tag-develop.tag_version.outputs.changelog }}
