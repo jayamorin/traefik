@@ -31,5 +31,5 @@ jobs:
           kustomize-version: "5.0.0"
 
       - name: Build KRM resources
-      - run: |
+        run: |
             kustomize build kustomize/overlays/docker-desktop
