@@ -71,3 +71,17 @@ jobs:
           tag: ${{ needs.tag-develop.tag_version.outputs.new_tag }}
           name: Release ${{ needs.tag-develop.tag_version.outputs.new_tag }}
           body: ${{ needs.tag-develop.tag_version.outputs.changelog }}
+
+  release-main:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: tag-main
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ needs.tag-main.tag_version.outputs.new_tag }}
+          name: Release ${{ needs.tag-main.tag_version.outputs.new_tag }}
+          body: ${{ needs.tag-main.tag_version.outputs.changelog }}
