@@ -60,7 +60,7 @@ jobs:
   pre-release-develop:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/develop' }}
-    needs: tests
+    needs: tag-develop
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
