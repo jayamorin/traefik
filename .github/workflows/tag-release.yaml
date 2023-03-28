@@ -15,14 +15,10 @@ on:
 jobs:
   tests:
     uses: jayamorin/gha-workflows/.github/workflows/test-krm.yaml@develop
-    if: ${{ (github.event.pull_request.types == 'opened') || (github.event.pull_request.types == 'reopened') || (github.event.pull_request.merged == 'true') }}
 
   develop:
     uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop.yaml@develop
     needs: tests
-    if: ${{ (github.event.pull_request.merged == 'true') }}
 
   main:
     uses: jayamorin/gha-workflows/.github/workflows/tag-release-main.yaml@develop
-    needs: tests
-    if: ${{ (github.event.pull_request.merged == 'true') }}
