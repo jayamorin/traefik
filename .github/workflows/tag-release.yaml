@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: test krm
+      - name: test krms
         uses: jayamorin/gha-workflows/.github/workflows/test-krm.yaml@develop
 
   develop:
@@ -29,7 +29,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: tag and preprelease
-        uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop@develop
+        uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop.yaml@develop
 
   main:
     runs-on: ubuntu-latest
