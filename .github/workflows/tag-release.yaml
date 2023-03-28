@@ -15,30 +15,27 @@ on:
 
 jobs:
   tests:
+    uses: jayamorin/gha-workflows/.github/workflows/test-krm.yaml@develop
     runs-on: ubuntu-latest
     if: ${{ (github.event.pull_request.types == 'opened') || (github.event.pull_request.types == 'reopened') }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: test krms
-        uses: jayamorin/gha-workflows/.github/workflows/test-krm.yaml@develop
 
   develop:
+    uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop.yaml@develop
     runs-on: ubuntu-latest
     needs: tests
     if: ${{ (github.event.pull_request.merged == 'true') }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: tag and preprelease
-        uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop.yaml@develop
 
   main:
+    uses: jayamorin/gha-workflows/.github/workflows/tag-release-main.yaml@develop
     runs-on: ubuntu-latest
     needs: tests
     if: ${{ (github.event.pull_request.merged == 'true') }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: tag and release
-        uses: jayamorin/gha-workflows/.github/workflows/tag-release-main.yaml@develop
