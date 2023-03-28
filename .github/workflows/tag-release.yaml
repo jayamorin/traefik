@@ -1,7 +1,6 @@
 name: tag and release
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -12,11 +11,12 @@ on:
       - develop
     types:
       - closed
+  merged:
 
 jobs:
   tests:
     uses: jayamorin/gha-workflows/.github/workflows/test-krm.yaml@develop
-    if: ${{ (github.event.pull_request.types == 'opened') || (github.event.pull_request.types == 'reopened') }}
+    if: ${{ (github.event.pull_request.types == 'opened') || (github.event.pull_request.types == 'reopened') || (github.event.pull_request.merged == 'true') }}
 
   develop:
     uses: jayamorin/gha-workflows/.github/workflows/tag-prerelease-develop.yaml@develop
