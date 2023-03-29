@@ -10,7 +10,6 @@ on:
       - main
       - develop
     types:
-      - closed
       - ready_for_review
       - review_requested
       
