@@ -8,7 +8,9 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`traefik.jayamorin.com`) && PathPrefix(`/dashboard`) || Host(`traefik.jayamorin.com`) && PathPrefix(`/api`)
+      match: Host(`traefik.desktop.jayamorin.com`) && PathPrefix(`/dashboard`) || Host(`traefik.desktop.jayamorin.com`) && PathPrefix(`/api`)
+      middlewares:
+        - name: traefik-ingress-controller-dashboard-whitelist
       services:
         - kind: Service
           name: traefik-ingress-controller-dashboard

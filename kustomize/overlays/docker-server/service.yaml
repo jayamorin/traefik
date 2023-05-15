@@ -10,5 +10,5 @@ spec:
       port: 9200
       targetPort: elasticsearch
   externalIPs:
-    - 192.168.254.252
+    - 192.168.254.250
   type: LoadBalancer
