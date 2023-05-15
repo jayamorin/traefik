@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-controller-dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`traefik-dashboard.localdomain.com`) && PathPrefix(`/dashboard`) || Host(`traefik-dashboard.localdomain.com`) && PathPrefix(`/api`)
+      middlewares:
+        - name: traefik-ingress-controller-dashboard-whitelist
+      services:
+        - kind: Service
+          name: traefik-ingress-controller-dashboard
+          port: 8080
