@@ -8,6 +8,6 @@ resources:
   - namespace.yaml
   - kubernetes-crd-definition-v1.yml
   - kubernetes-crd-rbac.yml
-  - deployment.yaml
+  - daemonset.yaml
   - service-account.yaml
   - service.yaml
