@@ -1,12 +1,20 @@
 ---
-kind: Deployment
+kind: Daemonset
 apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
 spec:
-  replicas: 2
   template:
     spec:
+      tolerations:
+        # these tolerations are to have the daemonset runnable on control plane nodes
+        # remove them if your control plane nodes should not run pods
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
       containers:
         - name: traefik
           args:
@@ -14,7 +22,6 @@ spec:
             - --entrypoints.web.Address=:80
             - --entrypoints.websecure.Address=:443
             - --providers.kubernetescrd
-            - --entrypoints.elasticsearch.Address=:9200
             - --providers.kubernetescrd.allowCrossNamespace=true
             - --serverstransport.insecureskipverify=true
             - --api.dashboard=true
@@ -27,5 +34,6 @@ spec:
             ###- --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
             - --log.level=DEBUG
           ports:
-            - name: elasticsearch
-              containerPort: 9200
+            - name: dashboard
+              containerPort: 8080
+

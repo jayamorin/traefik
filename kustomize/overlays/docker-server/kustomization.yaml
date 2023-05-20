@@ -5,8 +5,6 @@ namespace: traefik
 resources:
   - ../../base
   - dashboard-service.yaml
-  - dashboard-middleware.yaml
-  - dashboard-ingressroute.yaml
+  - traefik-ingress-controller-dashboard-ingressroute.yaml
 patches:
-  - path: deployment.yaml
-  - path: service.yaml
+  - path: daemonset.yaml

@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`k8s-dashboard.localdomain.com`) && PathPrefix(`/dashboard`) || Host(`k8s-dashboard.localdomain.com`) && PathPrefix(`/api`)
+      services:
+        - kind: Service
+          name: traefik-ingress-controller-dashboard
+          port: 8080
+  tls:
+    certResolver: default
