@@ -2,12 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: traefik
-commonLabels:
-  app.kubernetes.io/part-of: traefik-ingress-controller
 resources:
   - namespace.yaml
-  - kubernetes-crd-definition-v1.yml
-  - kubernetes-crd-rbac.yml
-  - daemonset.yaml
+  - https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+  - https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
   - service-account.yaml
+  - daemonset.yaml
   - service.yaml
