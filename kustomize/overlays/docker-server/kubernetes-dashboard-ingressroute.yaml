@@ -1,0 +1,49 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubernetes-dashboard-selfsigned
+  namespace: kubernetes-dashboard
+spec:
+  secretName: kubernetes-dashboard-selfsigned
+  issuerRef:
+    name: local-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - kubernetes-dashboard.localdomain.com
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard-http
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`kubernetes-dashboard.localdomain.com`)
+      services:
+        - kind: Service
+          name: kubernetes-dashboard
+          port: 443
+      middlewares:
+        - name: traefik-http-to-https@kubernetescrd
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard-https
+  namespace: kubernetes-dashboard
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`kubernetes-dashboard.localdomain.com`)
+      services:
+        - kind: Service
+          name: kubernetes-dashboard
+          port: 443
+  tls:
+    secretName: kubernetes-dashboard-selfsigned

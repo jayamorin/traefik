@@ -1,32 +1,28 @@
 ---
-kind: Deployment
+kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
   labels:
     app.kubernetes.io/name: traefik-ingress-controller
-    app.kubernetes.io/component: load-balancer
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: traefik-ingress-controller
-      app.kubernetes.io/component: load-balancer
   template:
     metadata:
       labels:
         app.kubernetes.io/name: traefik-ingress-controller
-        app.kubernetes.io/component: load-balancer
     spec:
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik
-          image: traefik:v2.7
+          image: traefik:v2.10
           args:
             - --api.insecure
             - --accesslog
-            - --entrypoints.web.Address=:80
-            - --entrypoints.websecure.Address=:443
+            - --entrypoints.web.address=:8000
+            - --entrypoints.websecure.address=:4443
             - --providers.kubernetescrd
             - --certificatesresolvers.myresolver.acme.tlschallenge
             - --certificatesresolvers.myresolver.acme.email=foo@you.com
@@ -39,5 +35,5 @@ spec:
               containerPort: 80
             - name: websecure
               containerPort: 443
-            - name: dashboard
+            - name: admin
               containerPort: 8080
