@@ -33,7 +33,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: kubernetes-dashboard
+  name: kubernetes-dashboard-https
   namespace: kubernetes-dashboard
 spec:
   entryPoints:
