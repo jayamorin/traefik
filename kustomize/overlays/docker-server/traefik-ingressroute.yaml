@@ -1,0 +1,55 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik.artsbychip.com
+  namespace: traefik
+spec:
+  secretName: traefik.artsbychip.com
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - traefik.artsbychip.com
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  namespace: traefik
+  name: traefik-dashboard-http
+  labels:
+    app.kubernetes.io/name: traefik-dashboard-http
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`traefik.artsbychip.com`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    services:
+    - kind: Service
+      name: traefik-dashboard
+      port: 8080
+    middlewares:
+    - name: traefik-http-to-https@kubernetescrd
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  namespace: traefik
+  name: traefik-dashboard-https
+  labels:
+    app.kubernetes.io/name: traefik-dashboard-https
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`traefik.artsbychip.com`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    services:
+    - kind: Service
+      name: traefik-dashboard
+      port: 8080
+    #middlewares:
+    #  - name: traefik-basic-authentication@kubernetescrd
+  tls:
+    secretName: traefik.artsbychip.com

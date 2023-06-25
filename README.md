@@ -29,7 +29,7 @@ _(But if you'd rather configure some of your routes manually, Traefik supports t
 ## Installation
 
 ```bash
-kubectl apply -k overlays/rancher-desktop
+kubectl apply -k kustomize/overlays/docker-server
 ```
 
 ## Reference
