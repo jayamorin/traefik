@@ -1,0 +1,44 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: jay.amorin@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - dns01:
+          cloudflare:
+            email: jay.amorin@email.com
+            apiTokenSecretRef:
+              name: cloudflare-api
+              key: token
+        selector:
+          dnsZones:
+            - "artsbychip.com"
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: jay.amorin@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-production
+    solvers:
+      - dns01:
+          cloudflare:
+            email: jay.amorin@email.com
+            apiTokenSecretRef:
+              name: cloudflare-api
+              key: token
+        selector:
+          dnsZones:
+            - "artsbychip.com"

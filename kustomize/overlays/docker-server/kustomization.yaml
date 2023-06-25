@@ -1,12 +1,25 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+commonLabels:
+  app.kubernetes.io/part-of: ingress-controller
+  app.kubernetes.io/managed-by: kustomize
 resources:
-  - ../../base
-  - http-to-https-middleware.yaml
-  - basic-authentication-middleware.yaml
-  - dashboard-service.yaml
-  - traefik-ingress-controller-dashboard-ingressroute.yaml
-  - kubernetes-dashboard-ingressroute.yaml
+- ../../base/cert-manager
+- ../../base/traefik
+- traefik-middleware.yaml
+- traefik-ingressroute.yaml
+- cert-manager-clusterissuer.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+secretGenerator:
+- name: cloudflare-api
+  namespace: cert-manager
+  envs:
+  - cloudflare-api.env
+- name: basic-authentication
+  namespace: traefik
+  envs:
+  - basic-authentication.env
 patches:
-  - path: daemonset.yaml
+- path: traefik-clusterrolebinding-patch.yaml
+- path: cert-manager-deployment-patch.yaml

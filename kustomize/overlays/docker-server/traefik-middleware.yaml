@@ -1,0 +1,23 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  namespace: traefik
+  name: basic-authentication
+  labels:
+    app.kubernetes.io/name: basic-authentication
+spec:
+  basicAuth:
+    secret: basic-authentication
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  namespace: traefik
+  name: http-to-https
+  labels:
+    app.kubernetes.io/name: http-to-https
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
